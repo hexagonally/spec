@@ -3,32 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Accordion</title>
+    <title>Flexbox Accordion with Stimulus.js</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="accordion" id="accordion">
-        <div class="accordion__item">
-            <h2 class="accordion__title" aria-expanded="false" aria-controls="content-1">Title 1</h2>
-            <div class="accordion__content" id="content-1">
-                <p>This is the content for the first accordion item. You can put more complex content here.</p>
+    <!-- Add Stimulus controller -->
+    <div data-controller="accordion">
+        <div class="accordion" data-accordion-target="container">
+            <!-- Accordion item 1 -->
+            <div class="accordion__item" data-action="click->accordion#toggle" data-accordion-target="item">
+                <h2 class="accordion__title" data-accordion-target="title" aria-expanded="false">Title 1</h2>
+                <div class="accordion__content" data-accordion-target="content">
+                    <p>This is the content for the first accordion item. You can put more complex content here.</p>
+                </div>
             </div>
-        </div>
-        <div class="accordion__item">
-            <h2 class="accordion__title" aria-expanded="false" aria-controls="content-2">Title 2</h2>
-            <div class="accordion__content" id="content-2">
-                <p>This is the content for the second accordion item. More details can go here.</p>
+            <!-- Accordion item 2 -->
+            <div class="accordion__item" data-action="click->accordion#toggle" data-accordion-target="item">
+                <h2 class="accordion__title" data-accordion-target="title" aria-expanded="false">Title 2</h2>
+                <div class="accordion__content" data-accordion-target="content">
+                    <p>This is the content for the second accordion item. More details can go here.</p>
+                </div>
             </div>
-        </div>
-        <div class="accordion__item">
-            <h2 class="accordion__title" aria-expanded="false" aria-controls="content-3">Title 3</h2>
-            <div class="accordion__content" id="content-3">
-                <p>This is the content for the third accordion item. You can put anything here.</p>
+            <!-- Accordion item 3 -->
+            <div class="accordion__item" data-action="click->accordion#toggle" data-accordion-target="item">
+                <h2 class="accordion__title" data-accordion-target="title" aria-expanded="false">Title 3</h2>
+                <div class="accordion__content" data-accordion-target="content">
+                    <p>This is the content for the third accordion item. You can put anything here.</p>
+                </div>
             </div>
         </div>
     </div>
 
+    <script src="https://unpkg.com/stimulus"></script>
     <script src="script.js"></script>
+
 </body>
 </html>

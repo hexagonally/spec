@@ -1,29 +1,32 @@
-// Wait for the DOM to fully load
-document.addEventListener('DOMContentLoaded', () => {
-    // Select all accordion titles
-    const accordionTitles = document.querySelectorAll('.accordion__title');
+// script.js
+import { Controller } from 'stimulus';
 
-    // Iterate through each accordion title
-    accordionTitles.forEach(title => {
-        title.addEventListener('click', function () {
-            const content = this.nextElementSibling; // Get the content section
+export default class extends Controller {
+    static targets = ['title', 'content', 'item'];
 
-            // Check if the current section is already open
-            const isOpen = this.classList.contains('open');
+    toggle(event) {
+        const title = event.currentTarget;
+        const content = title.nextElementSibling;
 
-            // Close all sections first
-            document.querySelectorAll('.accordion__title').forEach(t => {
-                t.classList.remove('open');
-                t.setAttribute('aria-expanded', 'false');
-                t.nextElementSibling.classList.remove('open');
-            });
+        // Check if the item is already open or not
+        const isOpen = title.getAttribute('aria-expanded') === 'true';
 
-            // If the section was not open, open it
-            if (!isOpen) {
-                this.classList.add('open');
-                this.setAttribute('aria-expanded', 'true');
-                content.classList.add('open');
-            }
+        // Close all items
+        this.closeAllItems();
+
+        // If it's not open, open it
+        if (!isOpen) {
+            title.setAttribute('aria-expanded', 'true');
+            content.classList.add('open');
+        }
+    }
+
+    closeAllItems() {
+        this.itemTargets.forEach(item => {
+            const title = item.querySelector('.accordion__title');
+            const content = item.querySelector('.accordion__content');
+            title.setAttribute('aria-expanded', 'false');
+            content.classList.remove('open');
         });
-    });
-});
+    }
+}

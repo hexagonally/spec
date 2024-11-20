@@ -1,55 +1,87 @@
-/* Basic styling */
-body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+/* Reset and global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Accordion container */
 .accordion {
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
+/* Individual accordion item */
+.accordion__item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Accordion title */
 .accordion__title {
-    background-color: #f1f1f1;
-    padding: 15px;
     font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    background-color: #fff;
+    padding: 15px;
     cursor: pointer;
-    margin: 0;
-    border: 1px solid #ccc;
     text-align: left;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    position: relative;
 }
 
+/* Title hover effect */
 .accordion__title:hover {
-    background-color: #ddd;
+    background-color: #007bff;
+    color: #fff;
+    transform: translateX(5px);
 }
 
-/* Hidden content initially */
+/* Accordion content */
 .accordion__content {
     display: none;
-    overflow: hidden;
-    padding: 0 15px;
+    padding: 15px;
     background-color: #f9f9f9;
+    font-size: 16px;
+    line-height: 1.6;
+    border-top: 1px solid #e0e0e0;
     max-height: 0;
-    transition: max-height 0.4s ease-out, padding 0.3s ease-out;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.3s ease-out;
 }
 
-/* Active content (shown) */
+/* Show content with sliding effect */
 .accordion__content.open {
     display: block;
-    max-height: 500px; /* Adjust as necessary */
+    max-height: 500px; /* Adjust this as needed */
     padding: 15px;
 }
 
-/* Optional: Adding icons for better UX */
-.accordion__title::after {
-    content: ' ▼';
-    font-size: 12px;
-    margin-left: 10px;
-    transition: transform 0.3s ease;
-}
+/* Responsive styles */
+@media (max-width: 600px) {
+    .accordion__title {
+        font-size: 16px;
+        padding: 12px;
+    }
 
-.accordion__title.open::after {
-    transform: rotate(180deg);
+    .accordion__content {
+        padding: 12px;
+    }
 }
