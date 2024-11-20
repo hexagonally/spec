@@ -56,7 +56,7 @@ body {
 
 /* Accordion content */
 .accordion__content {
-    display: none;
+    display: none; /* Initially hidden */
     padding: 15px;
     background-color: #f9f9f9;
     font-size: 16px;
@@ -85,3 +85,4 @@ body {
         padding: 12px;
     }
 }
+

@@ -4,6 +4,7 @@ import { Controller } from 'stimulus';
 export default class extends Controller {
     static targets = ['title', 'content', 'item'];
 
+    // Method to toggle accordion open/close state
     toggle(event) {
         const title = event.currentTarget;
         const content = title.nextElementSibling;
@@ -14,13 +15,14 @@ export default class extends Controller {
         // Close all items
         this.closeAllItems();
 
-        // If it's not open, open it
+        // If the item wasn't open, open it
         if (!isOpen) {
             title.setAttribute('aria-expanded', 'true');
             content.classList.add('open');
         }
     }
 
+    // Close all accordion items
     closeAllItems() {
         this.itemTargets.forEach(item => {
             const title = item.querySelector('.accordion__title');
