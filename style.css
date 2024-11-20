@@ -1,163 +1,185 @@
-@font-face {
-  font-family: "Geist";
-  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+@import url("https://unpkg.com/normalize.css") layer(normalize.css);
+
+@layer base {
+	*,
+	*:after,
+	*:before {
+		box-sizing: border-box;
+	}
+
+	body {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		font-family:  "SF Pro Text", "SF Pro Icons", "AOS Icons", "Helvetica Neue", Helvetica, Arial, sans-serif, system-ui;
+	}
+
+	header {
+		padding-top: 4rem;
+		position: sticky;
+		top: 0;
+    z-index: 4;
+    background: linear-gradient(white 50%, transparent);
+    margin-bottom: 4rem;
+	}
+
+
+	ol {
+		cursor: none;
+		padding: 0;
+		margin: 0;
+/*		list-style-position: inside;*/
+	}
+
+	.eyes {
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+		animation: blink 6s infinite linear;
+	}
+
+	.eyes {
+		animation-delay: -2s;
+	}
+
+	@keyframes blink {
+		0%,
+		46%,
+		48%,
+		50%,
+		100% {
+			scale: 1 1;
+		}
+		47%,
+		49% {
+			scale: 1 0.01;
+		}
+	}
+	
+	@counter-style pad-tens {
+	  system: extends decimal;
+	  suffix: ". ";
+	  pad: 2 "0";
+	}
+
+	li:not(:last-of-type) {
+		border-bottom: 2px solid hsl(0 0% 10% / 0.5);
+
+	}
+
+	li::marker {
+		font-size: clamp(.875rem, 1vw + 1rem, 2rem);
+		font-family: monospace;
+		vertical-align: middle;
+		font-weight: 100;
+		color: hsl(0 0% 10% / 0.5);
+	}
+
+	main {
+		flex: 1;
+	}
+
+	:root {
+		--font-size: clamp(2rem, 8vw + 1rem, 10rem);
+	}
+
+	h1 {
+		font-size: var(--font-size);
+    margin: 0;
+	}
+
+	h1 span:nth-of-type(1) {
+		font-size: 1.5rem;
+		opacity: 0.5;
+	}
+	h1 span:nth-of-type(2) {
+		font-size: clamp(1.875rem, 4vw + 1rem, 2rem);
+		text-transform: uppercase;
+	}
+
+	li:is(:hover, :focus-within) {
+		opacity: 1;
+		z-index: 2;
+	}
+
+	li:hover {
+		--active: 1;
+	}
+	li:has(~ li:is(:hover, :focus-within)),
+	li:is(:hover, :focus-within) ~ li {
+		opacity: 0.25;
+	}
+
+	li img {
+		opacity: var(--active, 0);
+		position: fixed;
+		pointer-events: none;
+		left: calc(var(--x) * 1px);
+		top: calc(var(--y) * 1px);
+		translate: -50% -50%;
+		cursor: none;
+		border-radius: 6px;
+    z-index: 6;
+	}
+
+	a {
+		padding: 2rem 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		text-decoration: none;
+		color: hsl(0 0% 10%);
+		font-weight: 300;
+		cursor: none;
+	}
+
+	li:is(:hover, :focus-within) {
+		border-bottom-color: #0000;
+	}
+
+	a:focus-visible {
+		outline-color: hsl(0 100% 50%);
+		outline-offset: 0.5rem;
+	}
+
+	a span {
+		font-size: clamp(.875rem, 0.5vw + 1rem, 2rem);
+		flex: 0 0 auto;
+	}
+
+	ol {
+		font-size: clamp(1.25rem, 2vw + 1rem, 2rem);
+	}
+
+	li {
+		position: relative;
+	}
+
+	:root:has(li:nth-of-type(10)) {
+		ol {
+		  list-style-type: pad-tens;
+		}
+	}
+
+	section {
+		width: 800px;
+		max-width: calc(100% - 8rem);
+		margin: 0 auto;
+	}
+
+	footer {
+		padding: 2rem;
+		text-align: center;
+	}
 }
 
-* {
-  box-sizing: border-box;
+@layer socials {
+	.bear-link {
+		color: hsl(0 0% 10%);
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+    z-index: 10;
+		width: 48px;
+    padding: 0;
+	}
 }
-
-:root {
-  --bg: hsl(0 0% 2%);
-}
-
-body {
-  display: grid;
-  place-items: center;
-  min-height: 100vh;
-  background: var(--bg);
-}
-
-main {
-  width: 60ch;
-  max-width: 100%;
-}
-
-body {
-  font-family: 'Geist', arial;
-  font-weight: 100;
-}
-
-ul {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  padding: 1rem;
-  list-style-type: none;
-}
-
-ul::after {
-  border-radius: 1rem;
-  content: "";
-  position: absolute;
-  background: hsl(0 0% 10%);
-  pointer-events: none;
-  z-index: -2;
-  inset:
-    calc(var(--top) * 1px)
-    calc(100% - (var(--right) * 1px))
-    calc(100% - (var(--bottom) * 1px))
-    calc(var(--left) * 1px);
-  transition: inset 0.2s;
-}
-
-ul[data-enhanced]:hover {
-  --active: 1;
-}
-ul[data-enhanced]::after {
-  opacity: var(--active, 0);
-  transition: opacity 0.2s, inset 0.2s 0.2s;
-}
-ul[data-enhanced]:hover::after {
-  transition: opacity 0.2s 0.2s, inset 0.2s;
-}
-
-@supports(anchor-name: --anchor) {  
-  li:hover article { anchor-name: --active; }
-  :root:has(li:hover) { --anchor: --active; }
-
-  ul::after {
-  	position-anchor: var(--anchor);
-    inset:
-      anchor(top)
-      anchor(right)
-      anchor(bottom)
-      anchor(left);
-  }
-
-  ul:has(li:hover) {
-    --active: 1;
-  }
-  ul::after {
-    opacity: var(--active, 0);
-    transition: opacity 0.2s, inset 0.2s 0.2s;
-  }
-  ul:hover::after {
-    transition: opacity 0.2s 0.2s, inset 0.2s;
-  }
-  
-  article::after {
-    content: unset;
-    display: none;
-  }
-}
-
-ul:not([data-enhanced]) article::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: hsl(0 0% 10%);
-  border-radius: 1rem;
-  opacity: var(--li-active, 0);
-  transition: opacity 0.2s;
-}
-
-article {
-  color: hsl(0 0% 80%);
-  padding: 1rem;
-  display: grid;
-  gap: 0.5rem;
-  position: relative;
-}
-
-article::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(var(--bg) 0 2px, transparent 2px 38px) -20px -20px / 40px 40px,
-    linear-gradient(90deg, var(--bg) 0 2px, transparent 2px 38px) -20px -20px / 40px 40px;
-  mask: linear-gradient(-35deg, var(--bg) 0%, transparent 45%);
-  z-index: -1;
-  opacity: var(--li-active, 0);
-  transition: opacity 0.2s;
-}
-
-li:hover {
-  --li-active: 1;
-}
-
-article h3 {
-  margin: 0;
-  font-weight: 120;
-}
-
-article p {
-  margin: 0;
-  text-wrap: pretty;
-  background: linear-gradient(hsl(0 0% 80%), hsl(0 0% 50%));
-  color: transparent;
-  background-clip: text;
-  font-weight: 80;
-}
-
-article svg {
-  width: 44px;
-}
-
-article svg path {
-  stroke-width: 0.75;
-  stroke: hsl(var(--hue, 30) calc(var(--li-active, 0) * 60%) 60%);
-  transition: stroke 0.2s;
-}
-
-li:nth-of-type(1) { --hue: 30; }
-li:nth-of-type(2) { --hue: 280; }
-li:nth-of-type(3) { --hue: 210; }
-li:nth-of-type(4) { --hue: 120; }
