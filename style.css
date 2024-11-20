@@ -1,88 +1,163 @@
-/* Reset and global styles */
+@font-face {
+  font-family: "Geist";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: hsl(0 0% 2%);
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: var(--bg);
 }
 
-/* Accordion container */
-.accordion {
-    width: 100%;
-    max-width: 600px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+main {
+  width: 60ch;
+  max-width: 100%;
 }
 
-/* Individual accordion item */
-.accordion__item {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+body {
+  font-family: 'Geist', arial;
+  font-weight: 100;
 }
 
-/* Accordion title */
-.accordion__title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    background-color: #fff;
-    padding: 15px;
-    cursor: pointer;
-    text-align: left;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    position: relative;
+ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* Title hover effect */
-.accordion__title:hover {
-    background-color: #007bff;
-    color: #fff;
-    transform: translateX(5px);
+li {
+  padding: 1rem;
+  list-style-type: none;
 }
 
-/* Accordion content */
-.accordion__content {
-    display: none; /* Initially hidden */
-    padding: 15px;
-    background-color: #f9f9f9;
-    font-size: 16px;
-    line-height: 1.6;
-    border-top: 1px solid #e0e0e0;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-in-out, padding 0.3s ease-out;
+ul::after {
+  border-radius: 1rem;
+  content: "";
+  position: absolute;
+  background: hsl(0 0% 10%);
+  pointer-events: none;
+  z-index: -2;
+  inset:
+    calc(var(--top) * 1px)
+    calc(100% - (var(--right) * 1px))
+    calc(100% - (var(--bottom) * 1px))
+    calc(var(--left) * 1px);
+  transition: inset 0.2s;
 }
 
-/* Show content with sliding effect */
-.accordion__content.open {
-    display: block;
-    max-height: 500px; /* Adjust this as needed */
-    padding: 15px;
+ul[data-enhanced]:hover {
+  --active: 1;
+}
+ul[data-enhanced]::after {
+  opacity: var(--active, 0);
+  transition: opacity 0.2s, inset 0.2s 0.2s;
+}
+ul[data-enhanced]:hover::after {
+  transition: opacity 0.2s 0.2s, inset 0.2s;
 }
 
-/* Responsive styles */
-@media (max-width: 600px) {
-    .accordion__title {
-        font-size: 16px;
-        padding: 12px;
-    }
+@supports(anchor-name: --anchor) {  
+  li:hover article { anchor-name: --active; }
+  :root:has(li:hover) { --anchor: --active; }
 
-    .accordion__content {
-        padding: 12px;
-    }
+  ul::after {
+  	position-anchor: var(--anchor);
+    inset:
+      anchor(top)
+      anchor(right)
+      anchor(bottom)
+      anchor(left);
+  }
+
+  ul:has(li:hover) {
+    --active: 1;
+  }
+  ul::after {
+    opacity: var(--active, 0);
+    transition: opacity 0.2s, inset 0.2s 0.2s;
+  }
+  ul:hover::after {
+    transition: opacity 0.2s 0.2s, inset 0.2s;
+  }
+  
+  article::after {
+    content: unset;
+    display: none;
+  }
 }
 
+ul:not([data-enhanced]) article::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: hsl(0 0% 10%);
+  border-radius: 1rem;
+  opacity: var(--li-active, 0);
+  transition: opacity 0.2s;
+}
+
+article {
+  color: hsl(0 0% 80%);
+  padding: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  position: relative;
+}
+
+article::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(var(--bg) 0 2px, transparent 2px 38px) -20px -20px / 40px 40px,
+    linear-gradient(90deg, var(--bg) 0 2px, transparent 2px 38px) -20px -20px / 40px 40px;
+  mask: linear-gradient(-35deg, var(--bg) 0%, transparent 45%);
+  z-index: -1;
+  opacity: var(--li-active, 0);
+  transition: opacity 0.2s;
+}
+
+li:hover {
+  --li-active: 1;
+}
+
+article h3 {
+  margin: 0;
+  font-weight: 120;
+}
+
+article p {
+  margin: 0;
+  text-wrap: pretty;
+  background: linear-gradient(hsl(0 0% 80%), hsl(0 0% 50%));
+  color: transparent;
+  background-clip: text;
+  font-weight: 80;
+}
+
+article svg {
+  width: 44px;
+}
+
+article svg path {
+  stroke-width: 0.75;
+  stroke: hsl(var(--hue, 30) calc(var(--li-active, 0) * 60%) 60%);
+  transition: stroke 0.2s;
+}
+
+li:nth-of-type(1) { --hue: 30; }
+li:nth-of-type(2) { --hue: 280; }
+li:nth-of-type(3) { --hue: 210; }
+li:nth-of-type(4) { --hue: 120; }
